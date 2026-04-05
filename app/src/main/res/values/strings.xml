@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">ORMECO APP</string>
+
+    <!-- Login -->
+    <string name="login_subtitle">Sign in to continue</string>
+    <string name="hint_email">Account Number</string>
+    <string name="hint_password">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="select_role_label">Select Role</string>
+    <string name="btn_login">Login</string>
+    <string name="create_account">Create an account</string>
+
+    <!-- Signup (if you use later) -->
+    <string name="hint_username">Username</string>
+    <string name="btn_signup">Sign Up</string>
+
+    <!-- Role options – align with your backend roles table -->
+    <string-array name="roles">
+        <item>Select Role</item>
+        <item>Member</item>
+        <item>Staff</item>
+        <item>Admin</item>
+    </string-array>
+</resources>

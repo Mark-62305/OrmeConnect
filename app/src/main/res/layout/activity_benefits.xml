@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7FFF8">
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNav">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available Benefits"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#1B5E20" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Explore and apply for benefits you're eligible for."
+                android:textColor="#4F5F52"
+                android:layout_marginTop="6dp" />
+
+            <!-- Dynamic benefit cards -->
+            <LinearLayout
+                android:id="@+id/containerBenefits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="16dp" />
+
+            <!-- Upload Supporting Files -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload Supporting Files (Max 10 MB total)"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#1B5E20"
+                android:layout_marginTop="24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="3dp"
+                android:padding="14dp"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/btnPickFiles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Choose File(s)" />
+
+                <TextView
+                    android:id="@+id/tvSelectedFiles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No file selected"
+                    android:textColor="#2E2E2E"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/tvTotalSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Total: 0 B / 10 MB"
+                    android:textColor="#4F5F52"
+                    android:layout_marginTop="6dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <Button
+                        android:id="@+id/btnUploadFiles"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Upload"
+                        android:enabled="false" />
+
+                    <Button
+                        android:id="@+id/btnClearFiles"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:text="Clear"
+                        android:enabled="false" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Application Progress Title -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Application Progress"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#1B5E20"
+                android:layout_marginTop="24dp" />
+
+            <!-- Progress Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#2E7D32"
+                    android:textStyle="bold"
+                    android:text="Submitted" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#2E7D32"
+                    android:text="Review" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#2E7D32"
+                    android:text="Processing" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#2E7D32"
+                    android:text="Approved" />
+            </LinearLayout>
+
+            <!-- Application Status Card -->
+            <TextView
+                android:id="@+id/tvApplicationStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No active application"
+                android:textColor="#2E2E2E"
+                android:background="#FFFFFF"
+                android:padding="14dp"
+                android:elevation="3dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:radius="10dp" />
+
+            <!-- Benefit History Header -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Benefit History"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#1B5E20"
+                android:layout_marginTop="24dp" />
+
+            <!-- History Container (Card) -->
+            <LinearLayout
+                android:id="@+id/containerBenefitHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:elevation="3dp"
+                android:padding="14dp"
+                android:radius="10dp"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation -->
+    <include
+        android:id="@+id/bottomNav"
+        layout="@layout/layout_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

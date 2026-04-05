@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background shape -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFF3E0" /> <!-- Light orange background -->
+            <corners android:radius="12dp" />
+            <stroke android:width="2dp" android:color="#FF9800" /> <!-- Orange border -->
+        </shape>
+    </item>
+
+    <!-- Optional overlay icon (e.g., alert symbol) -->
+    <!-- You can add a drawable here if needed -->
+</layer-list>

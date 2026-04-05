@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7FFF8">
+
+    <!-- TOP BAR -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:elevation="2dp">
+
+        <!-- Back text/button (you can set OnClick in Activity) -->
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="‹ Back"
+            android:textSize="14sp"
+            android:textColor="#166534"
+            android:paddingRight="12dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvHistoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meter History"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#166534" />
+
+            <!-- Dynamic meter number (e.g. Meter #123456) -->
+            <TextView
+                android:id="@+id/tvHistoryMeterNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meter #—"
+                android:textSize="14sp"
+                android:textColor="#4F5F52"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- SCROLLABLE CONTENT -->
+    <ScrollView
+        android:id="@+id/scrollHistoryContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topBar"
+        android:layout_above="@id/bottomNav">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Helper text -->
+            <TextView
+                android:id="@+id/tvHistorySubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Past meter readings and consumption records."
+                android:textColor="#4F5F52"
+                android:layout_marginBottom="12dp" />
+
+            <!-- If no history, show this -->
+            <TextView
+                android:id="@+id/tvNoHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No history available for this meter."
+                android:textColor="#9CA3AF"
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="#FFFFFF"
+                android:visibility="gone" />
+
+            <!-- Container where history rows will be added dynamically -->
+            <LinearLayout
+                android:id="@+id/containerHistoryList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation (same include as other screens) -->
+    <include
+        android:id="@+id/bottomNav"
+        layout="@layout/layout_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

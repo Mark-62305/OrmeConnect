@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp"
+    android:elevation="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Reading date -->
+        <TextView
+            android:id="@+id/tvReadingDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2025-11-01"
+            android:textSize="14sp"
+            android:textColor="#111827" />
+
+        <!-- kWh value -->
+        <TextView
+            android:id="@+id/tvReadingKwh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123.45 kWh"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#166534" />
+    </LinearLayout>
+
+    <!-- Optional secondary text (e.g., billing period or notes) -->
+    <TextView
+        android:id="@+id/tvReadingNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Billing period: Nov 2025"
+        android:textSize="12sp"
+        android:textColor="#6B7280"
+        android:layout_marginTop="2dp"
+        android:visibility="gone" />
+
+</LinearLayout>

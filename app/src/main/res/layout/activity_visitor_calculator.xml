@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFFFE">
+
+    <!-- SCROLLABLE CONTENT -->
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Modern Header with Gradient -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/header_gradient"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:paddingTop="48dp"
+                android:paddingBottom="32dp"
+                android:elevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Billing Calculator"
+                        android:textColor="#A7F3D0"
+                        android:textSize="14sp"
+                        android:letterSpacing="0.05"
+                        android:fontFamily="sans-serif-medium"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Estimate Your Bill"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="sans-serif"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Calculate electricity costs based on consumption"
+                        android:textColor="#D1FAE5"
+                        android:textSize="14sp"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- Content Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp">
+
+                <!-- Consumer Type Selection Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/icon_circle_green"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Consumer Type"
+                                android:textStyle="bold"
+                                android:textColor="#065F46"
+                                android:textSize="18sp"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Select your consumer classification"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="52dp"/>
+
+                        <RadioGroup
+                            android:id="@+id/rgTypes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="16dp">
+
+                            <RadioButton
+                                android:id="@+id/rbResidential"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Residential"
+                                android:checked="true"
+                                android:textColor="#065F46"
+                                android:textSize="15sp"
+                                android:padding="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/radio_button_bg_selected"
+                                android:buttonTint="#059669"
+                                android:fontFamily="sans-serif-medium"/>
+
+                            <RadioButton
+                                android:id="@+id/rbCommercial"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Commercial"
+                                android:textColor="#374151"
+                                android:textSize="15sp"
+                                android:padding="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/radio_button_bg"
+                                android:buttonTint="#059669"/>
+
+                            <RadioButton
+                                android:id="@+id/rbIndustrial"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Industrial"
+                                android:textColor="#374151"
+                                android:textSize="15sp"
+                                android:padding="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/radio_button_bg"
+                                android:buttonTint="#059669"/>
+
+                            <RadioButton
+                                android:id="@+id/rbPublicBuilding"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Public Building"
+                                android:textColor="#374151"
+                                android:textSize="15sp"
+                                android:padding="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/radio_button_bg"
+                                android:buttonTint="#059669"/>
+
+                            <RadioButton
+                                android:id="@+id/rbStreetLight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Street Lights"
+                                android:textColor="#374151"
+                                android:textSize="15sp"
+                                android:padding="16dp"
+                                android:background="@drawable/radio_button_bg"
+                                android:buttonTint="#059669"/>
+
+                        </RadioGroup>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Consumption Input Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="#FFFFFF">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <View
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/icon_circle_green"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Consumption (kWh)"
+                                android:textStyle="bold"
+                                android:textColor="#065F46"
+                                android:textSize="18sp"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Enter your electricity consumption"
+                            android:textColor="#6B7280"
+                            android:textSize="13sp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="52dp"/>
+
+                        <EditText
+                            android:id="@+id/etConsumption"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="e.g. 150"
+                            android:inputType="numberDecimal"
+                            android:textSize="16sp"
+                            android:textColor="#065F46"
+                            android:padding="16dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/edit_text_bg"/>
+
+                        <TextView
+                            android:id="@+id/tvRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="₱15.7972 / kWh"
+                            android:textColor="#059669"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="sans-serif-medium"/>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:cardCornerRadius="25dp"
+                            app:cardElevation="4dp"
+                            app:cardBackgroundColor="#10B981">
+
+                            <Button
+                                android:id="@+id/btnCalculate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Calculate Bill"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:background="@android:color/transparent"
+                                android:fontFamily="sans-serif-medium"/>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Result Card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="6dp"
+                    app:cardBackgroundColor="#ECFDF5">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <View
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@drawable/result_icon_circle"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Estimated Bill"
+                                android:textStyle="bold"
+                                android:textColor="#065F46"
+                                android:textSize="18sp"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="#A7F3D0"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"/>
+
+                        <!-- Consumption Summary -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="12dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Consumption"
+                                android:textColor="#059669"
+                                android:textSize="14sp"/>
+
+                            <TextView
+                                android:id="@+id/tvResultConsumption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 kWh"
+                                android:textColor="#065F46"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+
+                        <!-- Rate Summary -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Rate Applied"
+                                android:textColor="#059669"
+                                android:textSize="14sp"/>
+
+                            <TextView
+                                android:id="@+id/tvResultRate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₱0.00/kWh"
+                                android:textColor="#065F46"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+
+                        <!-- Total Amount -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="#D1FAE5"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Total Estimated Bill"
+                                android:textColor="#047857"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif-medium"/>
+
+                            <TextView
+                                android:id="@+id/tvResult"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₱0.00"
+                                android:textColor="#064E3B"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:fontFamily="sans-serif"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* This is an estimate. Actual bill may vary."
+                            android:textColor="#6B7280"
+                            android:textSize="11sp"
+                            android:layout_marginTop="12dp"
+                            android:fontStyle="italic"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
