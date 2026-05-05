@@ -110,6 +110,8 @@ public class MeterHistoryActivity extends AppCompatActivity {
     }
 
     private void addHistoryRow(MeterReading reading) {
+        if (reading == null) return;
+
         View row = getLayoutInflater().inflate(
                 R.layout.item_meter_history_row,
                 containerHistoryList,
@@ -120,10 +122,18 @@ public class MeterHistoryActivity extends AppCompatActivity {
         TextView tvReadingKwh  = row.findViewById(R.id.tvReadingKwh);
         TextView tvReadingNote = row.findViewById(R.id.tvReadingNote);
 
-        tvReadingDate.setText(reading.getReading_date());
+        String readingDate = reading.getReading_date();
+        String subReadingDate = "";
+
+        if (readingDate != null) {
+            subReadingDate = readingDate.length() > 10
+                    ? readingDate.substring(0, 10)
+                    : readingDate;
+        }
+
+        tvReadingDate.setText(subReadingDate);
         tvReadingKwh.setText(String.format(Locale.getDefault(), "%.2f kWh", reading.getKwh()));
 
-        // Optional note: you can customize or hide this
         tvReadingNote.setVisibility(View.GONE);
 
         containerHistoryList.addView(row);

@@ -7,7 +7,8 @@
     android:background="#FFFFFF"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
-    android:elevation="12dp">
+    android:elevation="12dp"
+    android:forceDarkAllowed="false">
 
     <!-- Home -->
     <LinearLayout
@@ -38,7 +39,7 @@
                 <View
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/nav_icon_home"/>
+                    android:background="@drawable/home"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -83,7 +84,7 @@
                 <View
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/nav_icon_incident"/>
+                    android:background="@drawable/warningsign"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -127,7 +128,7 @@
                 <View
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/nav_icon_calculator"/>
+                    android:background="@drawable/calculator"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -170,7 +171,7 @@
                 <View
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/nav_icon_profile"/>
+                    android:background="@drawable/account"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -213,7 +214,7 @@
                 <View
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/nav_icon_logout"/>
+                    android:background="@drawable/logout"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

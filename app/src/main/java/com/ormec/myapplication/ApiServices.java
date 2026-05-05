@@ -77,7 +77,7 @@ public interface ApiServices {
     Call<ScheduleRequestResponse> createScheduleRequest(@Body ScheduleRequestBody body);
 
     @GET("seminar-schedule-requests/latest")
-    Call<ScheduleRequestResponse> getLatestScheduleRequest();
+    Call<ScheduleRequestResponse> getLatestScheduleRequest(@Query("user_id") long userId);
 
     // ---------------- BILLING CALCULATOR ----------------
 
@@ -87,7 +87,7 @@ public interface ApiServices {
 
     // ---------------- INCIDENT REPORTS ----------------
 
-    // Submit an incident report (without image upload for now)
+    // Submit an incident report without image upload
     @FormUrlEncoded
     @POST("incidents/report")
     Call<SimpleResponse> reportIncident(
@@ -95,6 +95,17 @@ public interface ApiServices {
             @Field("category") String category,
             @Field("description") String description,
             @Field("location") String location
+    );
+
+    // Submit an incident report with image upload
+    @Multipart
+    @POST("incidents/report")
+    Call<SimpleResponse> reportIncidentWithImage(
+            @Part("user_id") long userId,
+            @Part("category") String category,
+            @Part("description") String description,
+            @Part("location") String location,
+            @Part MultipartBody.Part image
     );
 
     // List incidents for the logged-in user

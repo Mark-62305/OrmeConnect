@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     // For USB debugging with: adb reverse tcp:4000 tcp:4000
-    private static final String BASE_URL = "http://127.0.0.1:4000/api/mobile/";
+    private static final String BASE_URL = "http://192.168.1.3:4000/api/mobile/";
 
     private static Retrofit retrofit;
 

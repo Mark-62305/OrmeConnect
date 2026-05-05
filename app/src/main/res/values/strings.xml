@@ -9,6 +9,23 @@
     <string name="select_role_label">Select Role</string>
     <string name="btn_login">Login</string>
     <string name="create_account">Create an account</string>
+    <string name="visitor_mode">Continue as Visitor</string>
+    <string name="qr_login">Login with QR</string>
+
+    <!-- Benefits -->
+
+    <string name="available_benefits">Available Benefits</string>
+    <string name="benefits_subtitle">Explore and apply for benefits you\'re eligible for.</string>
+    <string name="upload_supporting_files">Upload Supporting Files (Max 10 MB total)</string>
+    <string name="btn_pick_files">Choose File(s)</string>
+    <string name="no_files">No File Selected</string>
+    <string name="btn_clear_files">Clear</string>
+    <string name="btn_upload_files">Upload</string>
+    <string name="application_progress">Application Progress</string>
+    <string name="benefit_history">Benefit History</string>
+
+
+
 
     <!-- Signup (if you use later) -->
     <string name="hint_username">Username</string>

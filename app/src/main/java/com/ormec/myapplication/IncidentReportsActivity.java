@@ -2,6 +2,7 @@ package com.ormec.myapplication;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -9,6 +10,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,10 +38,15 @@ import com.ormec.myapplication.models.IncidentItem;
 import com.ormec.myapplication.models.IncidentListResponse;
 import com.ormec.myapplication.models.SimpleResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,6 +56,7 @@ public class IncidentReportsActivity extends AppCompatActivity implements OnMapR
     // ── Constants ──────────────────────────────────────────────────────────────
     private static final int PICK_IMAGE_REQUEST   = 101;
     private static final int LOCATION_PERM_REQUEST = 102;
+    private static final long MAX_UPLOAD_BYTES = 10L * 1024L * 1024L; // 10 MB
 
     // Default centre (Philippines) – shown before the user grants GPS
     private static final double DEFAULT_LAT = 10.3157;
@@ -314,7 +323,23 @@ public class IncidentReportsActivity extends AppCompatActivity implements OnMapR
                 && resultCode == RESULT_OK && data != null) {
             attachedImageUri = data.getData();
             if (attachedImageUri != null) {
-                tvSelectedFile.setText("Attached: " + attachedImageUri.getLastPathSegment());
+                long size = getUriSizeBytes(attachedImageUri);
+                if (size <= 0L) {
+                    attachedImageUri = null;
+                    tvSelectedFile.setText("No file chosen");
+                    Toast.makeText(this, "Couldn't read image size.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (size > MAX_UPLOAD_BYTES) {
+                    attachedImageUri = null;
+                    tvSelectedFile.setText("No file chosen");
+                    Toast.makeText(this, "Upload limit is 10 MB. Please choose a smaller photo.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String name = getUriDisplayName(attachedImageUri);
+                tvSelectedFile.setText("Attached: " + (name != null ? name : "photo")
+                        + " (" + formatBytes(size) + ")");
             }
         }
     }
@@ -352,39 +377,73 @@ public class IncidentReportsActivity extends AppCompatActivity implements OnMapR
             return;
         }
 
-        ApiServices api = RetrofitClient.getApiService();
-        api.reportIncident(userId, category, description, location)
-                .enqueue(new Callback<SimpleResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<SimpleResponse> call,
-                                           @NonNull Response<SimpleResponse> response) {
-                        if (!response.isSuccessful() || response.body() == null) {
-                            Toast.makeText(IncidentReportsActivity.this,
-                                    "Server error: " + response.code(),
-                                    Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        SimpleResponse body = response.body();
-                        if ("success".equalsIgnoreCase(body.getStatus())) {
-                            Toast.makeText(IncidentReportsActivity.this,
-                                    "Incident sent.", Toast.LENGTH_SHORT).show();
-                            etDescription.setText("");
-                            tvSelectedFile.setText("No file chosen");
-                            loadIncidentHistory();
-                        } else {
-                            Toast.makeText(IncidentReportsActivity.this,
-                                    body.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
+        btnSubmit.setEnabled(false);
+        btnSubmit.setText("Submitting...");
 
-                    @Override
-                    public void onFailure(@NonNull Call<SimpleResponse> call,
-                                          @NonNull Throwable t) {
-                        Toast.makeText(IncidentReportsActivity.this,
-                                "Network error: " + t.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+        ApiServices api = RetrofitClient.getApiService();
+        Call<SimpleResponse> call;
+        if (attachedImageUri == null) {
+            call = api.reportIncident(userId, category, description, location);
+        } else {
+            MultipartBody.Part imagePart;
+            try {
+                imagePart = buildImagePart(attachedImageUri);
+            } catch (IOException e) {
+                btnSubmit.setEnabled(true);
+                btnSubmit.setText("Submit Report");
+                Toast.makeText(this, "Failed to read photo: " + e.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            call = api.reportIncidentWithImage(userId, category, description, location, imagePart);
+        }
+
+        call.enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<SimpleResponse> call,
+                                   @NonNull Response<SimpleResponse> response) {
+                btnSubmit.setEnabled(true);
+                btnSubmit.setText("Submit Report");
+                if (!response.isSuccessful() || response.body() == null) {
+                    Toast.makeText(IncidentReportsActivity.this,
+                            "Server error: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                SimpleResponse body = response.body();
+                if ("success".equalsIgnoreCase(body.getStatus())) {
+                    Toast.makeText(IncidentReportsActivity.this,
+                            "Incident sent.", Toast.LENGTH_SHORT).show();
+                    etDescription.setText("");
+                    attachedImageUri = null;
+                    tvSelectedFile.setText("No file chosen");
+                    loadIncidentHistory();
+                } else {
+                    Toast.makeText(IncidentReportsActivity.this,
+                            body.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SimpleResponse> call,
+                                  @NonNull Throwable t) {
+                btnSubmit.setEnabled(true);
+                btnSubmit.setText("Submit Report");
+                Toast.makeText(IncidentReportsActivity.this,
+                        "Network error: " + t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private MultipartBody.Part buildImagePart(Uri uri) throws IOException {
+        byte[] bytes = readAllBytes(uri, MAX_UPLOAD_BYTES);
+        String name = getUriDisplayName(uri);
+        if (name == null) name = "incident_photo";
+        String mime = resolveMimeType(uri);
+        if (mime == null) mime = "application/octet-stream";
+        RequestBody requestBody = RequestBody.create(bytes, MediaType.parse(mime));
+        return MultipartBody.Part.createFormData("files[]", name, requestBody);
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -475,5 +534,72 @@ public class IncidentReportsActivity extends AppCompatActivity implements OnMapR
             startActivity(i);
             finish();
         });
+    }
+
+    private String getUriDisplayName(Uri uri) {
+        try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int idx = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (idx >= 0) return cursor.getString(idx);
+            }
+        } catch (Exception ignored) { }
+        return null;
+    }
+
+    private long getUriSizeBytes(Uri uri) {
+        try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int idx = cursor.getColumnIndex(OpenableColumns.SIZE);
+                if (idx >= 0 && !cursor.isNull(idx)) return cursor.getLong(idx);
+            }
+        } catch (Exception ignored) { }
+        try (InputStream in = getContentResolver().openInputStream(uri)) {
+            if (in == null) return -1L;
+            long count = 0L;
+            byte[] buf = new byte[8192];
+            int n;
+            while ((n = in.read(buf)) != -1) {
+                count += n;
+                if (count > MAX_UPLOAD_BYTES) return count;
+            }
+            return count;
+        } catch (Exception e) {
+            return -1L;
+        }
+    }
+
+    private String resolveMimeType(Uri uri) {
+        String type = getContentResolver().getType(uri);
+        if (type != null) return type;
+        String name = getUriDisplayName(uri);
+        if (name == null) return null;
+        int dot = name.lastIndexOf('.');
+        if (dot < 0) return null;
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                name.substring(dot + 1).toLowerCase(Locale.US));
+    }
+
+    private byte[] readAllBytes(Uri uri, long limitBytes) throws IOException {
+        try (InputStream in = getContentResolver().openInputStream(uri)) {
+            if (in == null) throw new IOException("openInputStream returned null");
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buf = new byte[8192];
+            long total = 0L;
+            int n;
+            while ((n = in.read(buf)) != -1) {
+                total += n;
+                if (total > limitBytes) throw new IOException("Photo exceeds upload limit");
+                out.write(buf, 0, n);
+            }
+            return out.toByteArray();
+        }
+    }
+
+    private String formatBytes(long bytes) {
+        if (bytes < 0) return "Unknown";
+        if (bytes < 1024) return bytes + " B";
+        double kb = bytes / 1024.0;
+        if (kb < 1024) return String.format(Locale.US, "%.1f KB", kb);
+        return String.format(Locale.US, "%.2f MB", kb / 1024.0);
     }
 }

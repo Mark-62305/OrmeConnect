@@ -157,7 +157,7 @@ public class QrLoginActivity extends AppCompatActivity {
             tvHint.setText("Logging in…");
         });
 
-        final String memberCode = qrPayload;
+        final String memberCode = qrPayload.length() > 11 ? qrPayload.substring(0, 11) : qrPayload;
 
         ApiServices api = RetrofitClient.getApiService();
         Call<QrMemberLoginResponse> call = api.qrMemberLogin(new QrMemberLoginRequest(memberCode));
@@ -177,11 +177,20 @@ public class QrLoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                // If you return an accessToken from backend, save it.
+// Save accessToken
                 if (body.accessToken != null && !body.accessToken.trim().isEmpty()) {
                     getSharedPreferences("auth", MODE_PRIVATE)
                             .edit()
                             .putString("accessToken", body.accessToken)
+                            .apply();
+                }
+
+// ← ADD THIS: Save user_id and user_role so DashboardActivity can find them
+                if (body.user != null) {
+                    getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                            .edit()
+                            .putLong("user_id", (long) body.user.id)
+                            .putString("user_role", body.user.role)
                             .apply();
                 }
 

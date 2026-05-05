@@ -7,6 +7,7 @@ public class MeterReading {
     private String kwh;
     private String reading_date;
 
+
     // Safely convert kwh to float for our calculations
     public float getKwh() {
         try {

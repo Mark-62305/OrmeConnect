@@ -6,7 +6,8 @@
     android:background="#FFFFFF"
     android:padding="16dp"
     android:layout_marginBottom="12dp"
-    android:elevation="2dp">
+    android:elevation="2dp"
+    android:forceDarkAllowed="false">
 
     <TextView
         android:id="@+id/tvMeterName"
